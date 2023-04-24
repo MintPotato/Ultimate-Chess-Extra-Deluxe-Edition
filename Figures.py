@@ -32,10 +32,16 @@ class PrincessFigure(Figure):
     Класс фигуры выставленной на поле игроком
     '''
 
-    def __init__(self, color='green'):
+    def __init__(self, color):
+        '''
+        Параметры:
+            color: str
+                Цвет фигуры: red - фигура выставленная на исходную доску; green - фигура выставленная в ходе поиска решений
+        '''
         self.color = color
 
     def figure_attack(self, doska, i, j, N):
+        doska = [doska[i].copy() for i in range(N)]
         for a in range(1, 4):
 
             #  просчитывание клеток под боем для нижней части ходов фигуры
@@ -63,6 +69,7 @@ class PrincessFigure(Figure):
 
         doska[i][j] = PrincessFigure(self.color)
         return doska
+
 
 
 if __name__ == '__main__':

@@ -1,5 +1,4 @@
 from typing import Any
-
 import Figures as fig
 import time, Game
 from MyErrors import InputError, PlayerFiguresCoordinate
@@ -30,8 +29,7 @@ class Board:
         self.first_founded = False
 
         # Задаем желаемые фигуры
-        self.user_figure = fig.UPrincessFigure()
-        self.programm_figure = fig.PPrincessFigure()
+        self.figure = fig.PrincessFigure
 
         for pair in range(self.K):
             i, j = tuple(map(int, coords_to_place[pair].split()))
@@ -40,7 +38,7 @@ class Board:
                 Game.Game().error_occured(PlayerFiguresCoordinate, 'Координаты фигур для стартовой расстановки заданы неверно (совпадают/ находятся под боем)')
                 exit()
 
-            self.board = self.user_figure.figure_attack(self.board, i, j, self.N)
+            self.board = self.figure('red').figure_attack(self.board, i, j, self.N)
             coords_placed += [f'({i}, {j})']
 
         enogh_cells = self.if_free_cells()
@@ -77,7 +75,7 @@ class Board:
             for i in range(i1, self.N):
                 for j in range(j1, self.N):
                     if board[i][j] == 0:
-                        new_board = self.programm_figure.figure_attack(board, i, j, self.N)
+                        new_board = self.figure('green').figure_attack(board, i, j, self.N)
                         self.solves(new_board, placed + 1, file, i, j, coords + [f'({i}, {j})'])
                 j1 = 0
 
@@ -116,7 +114,7 @@ class Board:
         for i in range(self.N):
             for j in range(self.N):
                 if return_board[i][j] == 0:
-                    return_board = self.programm_figure.figure_attack(return_board, i, j, self.N)
+                    return_board = self.figure('green').figure_attack(return_board, i, j, self.N)
                     placed += 1
 
                 if placed == self.L:
@@ -129,5 +127,4 @@ if __name__ == '__main__':
     start_time = time.time()
     board = Board()
 
-    print(board.founded_solves)
     print(time.time() - start_time)
