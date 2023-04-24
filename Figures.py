@@ -23,6 +23,7 @@ class Figure(ABC):
         '''
         pass
 
+    # При обращении возвращает условное обозначение выставленной фигуры для вывода доски в консоль
     def __repr__(self):
         return '#'
 
@@ -32,7 +33,7 @@ class PrincessFigure(Figure):
     Класс фигуры выставленной на поле игроком
     '''
 
-    def __init__(self, color):
+    def __init__(self, color: str):
         '''
         Параметры:
             color: str
@@ -40,6 +41,7 @@ class PrincessFigure(Figure):
         '''
         self.color = color
 
+    # Переделать расстановку боя как у ПП
     def figure_attack(self, doska, i, j, N):
         doska = [doska[i].copy() for i in range(N)]
         for a in range(1, 4):
@@ -69,7 +71,6 @@ class PrincessFigure(Figure):
 
         doska[i][j] = PrincessFigure(self.color)
         return doska
-
 
 
 if __name__ == '__main__':
