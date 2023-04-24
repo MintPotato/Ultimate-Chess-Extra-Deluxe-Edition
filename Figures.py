@@ -5,7 +5,6 @@ class Figure(ABC):
     '''
     Абстрактный класс для всевозможных фигур
     '''
-    color: str
 
     @abstractmethod
     def figure_attack(self, doska: list[list], i: int, j: int, N: int) -> list[list]:
@@ -24,12 +23,17 @@ class Figure(ABC):
         '''
         pass
 
+    def __repr__(self):
+        return '#'
 
-class UPrincessFigure(Figure):
+
+class PrincessFigure(Figure):
     '''
     Класс фигуры выставленной на поле игроком
     '''
-    color = 'red'
+
+    def __init__(self, color='green'):
+        self.color = color
 
     def figure_attack(self, doska, i, j, N):
         for a in range(1, 4):
@@ -56,50 +60,9 @@ class UPrincessFigure(Figure):
 
             if 0 <= j + a < N:
                 doska[i][j + a] = '*'
-        doska[i][j] = UPrincessFigure()
+
+        doska[i][j] = PrincessFigure(self.color)
         return doska
-
-    def __repr__(self):
-        return '#'
-
-
-class PPrincessFigure(Figure):
-    '''
-    Класс фигуры выставленной на поле в ход выполнения программы
-    '''
-    color = 'green'
-
-    def figure_attack(self, board: list[list], i: int, j: int, N: int):
-        doska = [board[i].copy() for i in range(N)]
-        for a in range(1, 4):
-
-            #  просчитывание клеток под боем для нижней части ходов фигуры
-            if 0 <= i + a < N:
-                c = j - a
-                for b in range(3):
-                    if 0 <= c < N:
-                        doska[i + a][c] = '*'
-                    c += a
-
-            # просчитывание клеток под боем для верхнй части ходов фигуры
-            if 0 <= i - a < N:
-                c = j - a
-                for b in range(3):
-                    if 0 <= c < N:
-                        doska[i - a][c] = '*'
-                    c += a
-
-            # просчитывание клеток под боем по горизонтали
-            if 0 <= j - a < N:
-                doska[i][j - a] = '*'
-
-            if 0 <= j + a < N:
-                doska[i][j + a] = '*'
-        doska[i][j] = PPrincessFigure()
-        return doska
-
-    def __repr__(self):
-        return '#'
 
 
 if __name__ == '__main__':
@@ -113,7 +76,7 @@ if __name__ == '__main__':
 
     for i in range(K):
         i, j = tuple(map(int, coords[i].split()))
-        board = UPrincessFigure().figure_attack(board, i, j, N)
+        board = PrincessFigure('red').figure_attack(board, i, j, N)
         print(board[i][j].color)
 
     for stroka in board:
