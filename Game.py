@@ -2,17 +2,14 @@ import Tk, Board, Pg
 
 
 class Game:
-    def __init__(self):
-        pass
-
     def start(self):
         #Делается, на всякий случай, чтобы очистить файл от предыдущих записей
         with open('input.txt', 'w') as f:
             pass
 
         # Открывается окно ввода N, L, K
-        self.start_window = Tk.NLKWindow()
-        self.start_window.mainloop()
+        start_window = Tk.NLKWindow()
+        start_window.mainloop()
 
         # Выполняется поиск первого решения, если таковое есть, и его вывод в окно pygame
         Pg.GUI()
