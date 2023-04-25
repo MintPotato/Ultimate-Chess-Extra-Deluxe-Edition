@@ -61,20 +61,24 @@ class Board:
             coords_placed += [f'({i}, {j})']
 
         # Если количество свободных клеток не меньше необходимого количества и нужно найти все решения
-        if self.if_free_cells() and not only_first_solution:
+        if not only_first_solution:
             # Открывает файл для записи найденых решений
             f = open('output.txt', 'w')
+            if self.if_free_cells():
 
-            # Запускается функция осуществляющая поиск реений
-            self.solves(self.board, 0, f, 0, 0, coords_placed)
+                # Запускается функция осуществляющая поиск реений
+                self.solves(self.board, 0, f, 0, 0, coords_placed)
 
-            # Если решений не найдно, записать вывести в консоль и записать в файл "No solution"
-            if self.founded_solves == 0:
+                # Если решений не найдно, записать вывести в консоль и записать в файл "No solution"
+                if self.founded_solves == 0:
+                    print('No solution')
+                    f.write('No solution')
+
+                else:  # Иначе вывести количество найденных решений
+                    print(self.founded_solves)
+            else:
                 print('No solution')
                 f.write('No solution')
-
-            else:  # Иначе вывести количество найденных решений
-                print(self.founded_solves)
 
     def solves(self, board: list[list], placed: int, file, i1: int, j1: int, coords: list[str]):
         '''

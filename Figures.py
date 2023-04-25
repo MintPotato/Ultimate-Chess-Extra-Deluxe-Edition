@@ -7,6 +7,15 @@ class Figure(ABC):
     '''
 
     @abstractmethod
+    def __init__(self, color):
+        '''
+        Параметры:
+            color: str
+                Цвет фигуры: red - фигура выставленная на исходную доску; green - фигура выставленная в ходе поиска решений
+        '''
+        self.color: str
+
+    @abstractmethod
     def figure_attack(self, doska: list[list], i: int, j: int, N: int) -> list[list]:
         '''
         Функция отвечающая за запись фигуры и ее клеток боя на заданную доску
@@ -34,11 +43,6 @@ class PrincessFigure(Figure):
     '''
 
     def __init__(self, color: str):
-        '''
-        Параметры:
-            color: str
-                Цвет фигуры: red - фигура выставленная на исходную доску; green - фигура выставленная в ходе поиска решений
-        '''
         self.color = color
 
     # Переделать расстановку боя как у ПП
