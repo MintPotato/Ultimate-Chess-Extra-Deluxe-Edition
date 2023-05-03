@@ -16,17 +16,15 @@ class Figure(ABC):
         self.color: str
 
     @abstractmethod
-    def figure_attack(self, doska: list[list], i: int, j: int, N: int) -> list[list]:
+    def figure_attack(self, doska: list[list], y: int, x: int, N: int) -> list[list]:
         '''
         Функция отвечающая за запись фигуры и ее клеток боя на заданную доску
 
         Параметры:
             doska: list[list]
                 Заданная доска для подстановки фигуры
-            i: int
-                Индекс строки для подстановки фигуры
-            j: int
-                Индекс столбца для подстановки фигуры
+            y, x: int
+                Координаты для подстановки фигуры
             N: int
                 Размерность заданной доски
         '''
@@ -39,41 +37,29 @@ class Figure(ABC):
 
 class PrincessFigure(Figure):
     '''
-    Класс фигуры выставленной на поле игроком
+    Класс фигуры "Принцесса"
     '''
 
     def __init__(self, color: str):
         self.color = color
 
-    # Переделать расстановку боя как у ПП
-    def figure_attack(self, doska, i, j, N):
+    def figure_attack(self, doska, y, x, N):
+
+        # Создание копии доски, чтобы данные в исходной доске не переписывались
         doska = [doska[i].copy() for i in range(N)]
-        for a in range(1, 4):
 
-            #  просчитывание клеток под боем для нижней части ходов фигуры
-            if 0 <= i + a < N:
-                c = j - a
-                for b in range(3):
-                    if 0 <= c < N:
-                        doska[i + a][c] = '*'
-                    c += a
+        # Проход по возможным координатам клеток боя
+        for el in (y - 3, x - 3), (y - 3, x), (y - 3, x + 3), (y - 2, x - 2), (y - 2, x), (y - 2, x + 2), \
+                (y - 1, x - 1), (y - 1, x), (y - 1, x + 1), (y, x - 3), (y, x - 2), (y, x - 1), (y, x + 1), (
+        y, x + 2), (y, x + 3), \
+                (y + 1, x - 1), (y + 1, x), (y + 1, x + 1), (y + 2, x - 2), (y + 2, x), (y + 2, x + 2), (
+        y + 3, x - 3), (y + 3, x), (y + 3, x + 3):
+            if 0 <= el[0] < N and 0 <= el[1] < N:
+                doska[el[0]][el[1]] = '*'
 
-            # просчитывание клеток под боем для верхнй части ходов фигуры
-            if 0 <= i - a < N:
-                c = j - a
-                for b in range(3):
-                    if 0 <= c < N:
-                        doska[i - a][c] = '*'
-                    c += a
+        # Запись самой фигуры на поле
+        doska[y][x] = PrincessFigure(self.color)
 
-            # просчитывание клеток под боем по горизонтали
-            if 0 <= j - a < N:
-                doska[i][j - a] = '*'
-
-            if 0 <= j + a < N:
-                doska[i][j + a] = '*'
-
-        doska[i][j] = PrincessFigure(self.color)
         return doska
 
 

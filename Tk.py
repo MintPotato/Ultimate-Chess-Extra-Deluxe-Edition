@@ -19,7 +19,7 @@ def write_coords(coords: str):
 
 class CoordsWindow(tk.Toplevel):
     '''
-    Класс в котором реализуется создание окна с вводом координат
+    Класс окна с вводом координат
     '''
 
     def __init__(self, nlk: str, n: str, k: str):
@@ -36,15 +36,15 @@ class CoordsWindow(tk.Toplevel):
         '''
 
         super().__init__()
-        self.nlk_and_coords = nlk
-        self.razmernost = int(n)
-        self.k = int(k)
 
-        # Создание команд валидации ввода значений координат
+        # Объявление необходимых переменных
+        self.nlk_and_coords = nlk  # Строка содержащая первую строку файла "input.txt"
+        self.razmernost = int(n)  # Размерность доски
+        self.k = int(k)  # Количество строк ввода координат
+        self.coords_entries = []  # Список для хранения полей ввода координат
+
+        # Создание команды валидации ввода значений координат
         self.vcmd_coords = (self.register(self.is_valid), '%P')
-
-        # Список для хранения полей ввода координат
-        self.coords_entries = []
 
         # Инициализация строк ввода координат
         for i in range(self.k):
@@ -57,36 +57,6 @@ class CoordsWindow(tk.Toplevel):
         self.start_btn = ttk.Button(self, text='Запуск', command=self.get_coords).grid(row=self.k)
 
         self.resizable(False, False)
-
-    def is_valid(self, string: str) -> bool:
-        '''
-        Функция для валидации ввода координат фигур
-
-        Параметры:
-            string: str
-                Строка ввда координат фигур
-        '''
-        # Нужна для возможности удалять первый написаный элемент
-        if string == '':
-            return True
-
-        # Переменная для хранения записаных координат
-        coords = string.split()
-
-        if len(coords) > 2:  # если пытаются ввести третью координату
-            return False
-        try:
-            coords = map(int, coords)
-
-            # если введенная координата не превышает размерность поля
-            # (ввод координат ведется с 0 до self.razmernost - 1)
-            if max(coords) < self.razmernost:
-                return True
-            else:
-                return False
-
-        except:
-            return False
 
     def get_coords(self):
         '''
@@ -119,10 +89,40 @@ class CoordsWindow(tk.Toplevel):
         write_coords(self.nlk_and_coords)
         self.quit()
 
+    def is_valid(self, string: str) -> bool:
+        '''
+        Функция для валидации ввода координат фигур
+
+        Параметры:
+            string: str
+                Строка ввда координат фигур
+        '''
+        # Нужна для возможности удалять первый написаный элемент
+        if string == '':
+            return True
+
+        # Переменная для хранения записаных координат
+        coords = string.split()
+
+        if len(coords) > 2:  # если пытаются ввести третью координату
+            return False
+        try:
+            coords = map(int, coords)
+
+            # если введенная координата не превышает размерность поля
+            # (ввод координат ведется с 0 до self.razmernost - 1)
+            if max(coords) < self.razmernost:
+                return True
+            else:
+                return False
+
+        except:
+            return False
+
 
 class NLKWindow(tk.Tk):
     """
-    Класс в котором реализуется создание окна с вводом значений:
+    Класс с вводом значений:
         n - размерность доски
 
         l - количество фигур дл подстановки
@@ -238,22 +238,3 @@ class NLKWindow(tk.Tk):
             self.destroy()
             NLKWindow()
             Game.Game().error_occured(EmptyNLK, 'Как минимум одно из полей для ввода значений является пустым')
-
-# class WaitWindow(tk.Tk):
-#     def __init__(self):
-#         super().__init__()
-#
-#         self.geometry('200x100')
-#
-#         self.label_text = tk.StringVar()
-#         self.label = ttk.Label(self, textvariable=self.label_text).grid(row=0)
-#         self.label_text.set('Идет запись решений, ожидайте')
-#
-#
-#     def done(self):
-#         self.label = ttk.Label(self, textvariable=self.label_text).grid(row=0)
-#         self.label_text.set('Запись окончена')
-#         self.close_btn = ttk.Button(self, text='Закрыть', command=self.close).grid(row=1)
-#
-#     def close(self):
-#         self.quit()

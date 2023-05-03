@@ -8,9 +8,9 @@ class GUI:
         Формирования поиска решения для отрисовки, и в зависимости от результата запуск отрисовки разных окон
         '''
 
-        board = Board.Board(only_first_solution=True)
-
-        razmernost, board = board.N, board.only_fist_solve()
+        # Объявление необходимых переменных
+        solve = Board.Board(only_first_solution=True)  # Создание экземпляра класса Board с поиском только первого решения
+        razmernost, board = solve.N, solve.only_fist_solve()  # размерность доски и ее матрица
 
         if board:
             self.run = True
@@ -135,7 +135,6 @@ class CloseButton:
         self.color = ((200, 200, 200))
         self.color_hover = ((50, 50, 50))
 
-
         # Создание надписи внутри кнопки
         self.button_surface = pygame.Surface((self.width, self.height))
         self.button_txt = pygame.font.SysFont('TimesNewRoman', 15).render(text, True, 'black')
@@ -148,7 +147,7 @@ class CloseButton:
         Функция вызываемая во время работы окна для проверки взаимодействия пользователя с кнопкой
         '''
 
-        mouse = pygame.mouse.get_pos() # Получение положения мыши в окне
+        mouse = pygame.mouse.get_pos()  # Получение положения мыши в окне
         self.button_surface.fill(self.color)
 
         # Проверка на положение мыши внутри рамки кнопки

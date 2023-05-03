@@ -3,7 +3,7 @@ import Tk, Board, Pg
 
 class Game:
     def start(self):
-        #Делается, на всякий случай, чтобы очистить файл от предыдущих записей
+        # Делается, на всякий случай, чтобы очистить файл от предыдущих записей
         with open('input.txt', 'w') as f:
             pass
 
@@ -16,8 +16,6 @@ class Game:
 
         # Если была нажата кнопки о записи решений в файл, выполняется поиск решений и их запись
         Board.Board()
-        # self.wait_window = Tk.WaitWindow()
-        # self.wait_window.mainloop()
 
     def error_occured(self, error, error_text):
         '''
