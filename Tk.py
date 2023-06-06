@@ -48,7 +48,7 @@ class CoordsWindow(tk.Toplevel):
 
         # Инициализация строк ввода координат
         for i in range(self.k):
-            self.label = ttk.Label(self, text='Ввежите координаты "x y":').grid(row=i, column=0)
+            self.label = ttk.Label(self, text='Введите координаты "x y":').grid(row=i, column=0)
             self.entry = ttk.Entry(self, validate='key', validatecommand=self.vcmd_coords)
             self.coords_entries += [self.entry]
             self.entry.grid(row=i, column=1)
